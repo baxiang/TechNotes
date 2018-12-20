@@ -1,0 +1,3 @@
+##Services
+一个services代表一个Containner,这个container
+Service的启动了类似docker run,我们可以指定network和volume ,所以可以给service指定network和Volume的引用。
