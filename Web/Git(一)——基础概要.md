@@ -76,8 +76,37 @@ git config --system/--global/ --local user.name "Your Name"
  git config --global --list #查看全局级的配置清单
 git config --system -l # 查看系统级的配置清单
 ```
-
-
+####创建SSH Key
+```
+$ ssh-keygen -t rsa -C "youremail@example.com"
+```
+密钥类型可以用 -t 选项指定。如果没有指定则默认生成用于SSH-2的RSA密钥。这里使用的是rsa。
+同时在密钥中有一个注释字段，用-C来指定所指定的注释，可以方便用户标识这个密钥，指出密钥的用途或其他有用的信息。所以在这里输入自己的邮箱或者其他都行。
+输入完毕后程序同时要求输入一个密语字符串(passphrase)，空表示没有密语。接着会让输入2次口令(password)，空表示没有口令。3次回车即可完成当前步骤。
+```
+$ ssh-keygen -t rsa -C "yangyucug@gmail.com"
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/baxiang/.ssh/id_rsa): 
+Created directory '/home/baxiang/.ssh'.
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /home/baxiang/.ssh/id_rsa.
+Your public key has been saved in /home/baxiang/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:Y4bxF3Aylak4SjOgmDnLaQODZFFPBHp8fuKbWkUTyYM yangyucug@gmail.com
+The key's randomart image is:
++---[RSA 2048]----+
+| .ooooo.=.oo     |
+| o+ oE +.=o      |
+|== + o.+...      |
+|X . * ++o  .     |
+|o+.. *.+S .      |
+|.=  o +o o       |
+|. .  o           |
+|    . o          |
+|   ..o           |
++----[SHA256]-----+
+````
 
 
 

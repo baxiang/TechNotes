@@ -113,14 +113,24 @@ set null
 restrict
 no action
 ##修改数据表
+#### 修改表名称
+ALTER TABLE  <旧表名> RENAME <新表名>;
+```
+ALTER TABLE employee RENAME empl;
+```
+#### 修改表字段类型
+ALTER TABLE <表名> MODIFY<字段名称> <数据类型>;
+```
+ALTER TABLE empl MODIFY name VARCHAR(30);
+```
 ####添加单列
 ALTER TABLE 
 ```
  ALTER TABLE fruits ADD s_id int AFTER id;
 ```
-#### 添加多列
 
  ####删除列
+ALTER TABLE <表名> DROP <字段名>；
 ```
 ALTER TABLE user Drop age;
 ```

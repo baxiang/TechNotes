@@ -14,6 +14,13 @@ yum 安装nginx
 ```
 yum install -y nginx
 ````
+分别设置启动Nginx和开机自启动
+```
+systemctl start nginx.service
+systemctl enable nginx.service
+```
+
+
 ## ubuntu 安装
 ```
 apt-get install Nginx
@@ -109,3 +116,6 @@ To have launchd start nginx now and restart at login:
 Or, if you don't want/need a background service you can just run:
   nginx
 ```
+
+访问你的服务器IP地址，查看默认页面：http://<您的 IP 地址>
+![image.png](https://upload-images.jianshu.io/upload_images/143845-808d6d656d296c1a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)

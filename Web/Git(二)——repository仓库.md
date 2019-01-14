@@ -1,4 +1,3 @@
-## 本地仓库
 git init会初始化一个空的仓库（empty Git repository，同时在我们执行git init后会在当前目录下自动创建一个.git的目录，这个目录是Git来跟踪管理版本库的。
 ```
 $ mkdir gitDemo
@@ -33,7 +32,7 @@ Changes to be committed:
 
 	new file:   test.txt
 ```
-#####将暂存区的内容提交到仓库
+#####将暂存区的内容提交到本地仓库
 ```
 git commit -m"init test"
 [master (root-commit) c147eb0] init test
@@ -43,8 +42,9 @@ git commit -m"init test"
 ##git checkout
 修改文件test.txt,增加文件内容123456，想在想撤销增加的文件内容，执行git checkout，但是前提条件是未执行git add 操作 文件状态处于工作区。
 ```
-git checkout  撤销的文件名
+git checkout -- file（文件名称）
 ```
+其中 --（两个横线）很重要，没有--，就变成git切换分支的命令
 ```
 $ vim test.txt
 $ cat test.txt
@@ -52,7 +52,7 @@ $ cat test.txt
 $ git checkout test.txt
 $ cat test.txt
 ```
-## git reset HEAD 
+#### git reset HEAD 
 修改文件内容为qwerty，同时执行了git add 操作 文件被暂时在暂存区，撤销暂存区的修改git reset HEAD 命令
 ```
 $ vim test.txt
@@ -65,14 +65,63 @@ M	test.txt
 $ git checkout test.txt # 撤销修改
 $ cat test.txt
 ```
-## 取消commit修改
+####取消commit修改
 ```
 git reset --soft #取消了commit  
 git reset --mixed（默认） #取消了commit ，取消了add
-git reset --hard #取消了commit ，取消了add，取消源文件修改
+git reset --hard #取消了commit ，取消了add，取消工作区修改
 ```
+HEAD表示当前版本最新提交的commitid，当前最新的提交972cc6e5fb6d6edd53fecd88f343cab46ad62cbe ，上一个版本提交就是HEAD^，上上一个版本就是HEAD^^，当然往上10个版本写10个^，当然一般我们也不这么写，可以使用HEAD~10，波浪号+数字代表要回滚多少次之前的提交。
+```
+$ git log
+commit 972cc6e5fb6d6edd53fecd88f343cab46ad62cbe (HEAD -> master)
+Author: baxiang <baxiang@roobo.com>
+Date:   Sun Dec 23 01:04:30 2018 +0800
+
+    rollback two
+
+commit 7c75daeda34530e698c208a5cedfacf1f1629b11
+Author: baxiang <baxiang@roobo.com>
+Date:   Sun Dec 23 01:03:29 2018 +0800
+
+    rollback first
+$ git reset --hard HEAD^
+HEAD 现在位于 7c75dae rollback first
+$git log 
+commit 7c75daeda34530e698c208a5cedfacf1f1629b11 (HEAD -> master)
+Author: baxiang <baxiang@roobo.com>
+Date:   Sun Dec 23 01:03:29 2018 +0800
+
+    rollback first
+```
+代码提交恢复
+git reflog 查看git的操作记录
+```
+$ git reflog
+7c75dae (HEAD -> master) HEAD@{0}: reset: moving to HEAD^
+972cc6e HEAD@{1}: commit: rollback two
+7c75dae (HEAD -> master) HEAD@{2}: commit: rollback first
+```
+执行git reset --hard +需要回滚的commit  id 又可以恢复到rollback two这条提交记录。
+```
+$ git reset --hard 972cc6e
+HEAD 现在位于 972cc6e rollback two
+$ git log
+commit 972cc6e5fb6d6edd53fecd88f343cab46ad62cbe (HEAD -> master)
+Author: baxiang <baxiang@roobo.com>
+Date:   Sun Dec 23 01:04:30 2018 +0800
+
+    rollback two
+
+commit 7c75daeda34530e698c208a5cedfacf1f1629b11
+Author: baxiang <baxiang@roobo.com>
+Date:   Sun Dec 23 01:03:29 2018 +0800
+
+    rollback first
+```
+
 ## git commit --amend
---amend 会覆盖上一回的commit修改内容
+--amend 会覆盖上一回的commit修改message(内容)
 ```
 $ vim test.txt
 $ cat test.txt
@@ -109,13 +158,33 @@ Date:   xxxx
 
     init test
 ```
+## git rm
+删除缓存区的跟踪的文件
+```
+ git rm readme
+rm 'readme'
+baxiangdeMacBook:gitDemo baxiang$ git status
+位于分支 master
+要提交的变更：
+  （使用 "git reset HEAD <文件>..." 以取消暂存）
+
+	删除：     readme
+
+```
+##git mv  
+修改文件名称
+```
+git mv readme readme.md
+```
 ##git log 
 查看commit历史,同时也可以增加--oneline ，以简洁的方式查看
 ```
- git log --oneline
-b5b7d12 (HEAD -> master) update index
+ $ git log --oneline
+eddccf5 (HEAD -> master) delete readme
+70afaaf init readme
+b5b7d12 update index
 501fdac js
-46995cb add style.css
+46995cb (test) add style.css
 3dccbfc add index
 
 ```
@@ -135,60 +204,122 @@ Date:   Wed Dec 12 00:26:53 2018 +0800
     update index
 
 ```
+-n 加数字 只查看最近的2次提交
+```
+$ git log -n2
+commit eddccf59f9308c2b9fdd4409f5d167749622c5ee (HEAD -> master)
+Author: baxiang <baxiang@roobo.com>
+Date:   Fri Dec 21 19:17:57 2018 +0800
+
+    delete readme
+
+commit 70afaaf5cfcf5f11c768a135043f345f4b464606
+Author: baxiang <baxiang@roobo.com>
+Date:   Fri Dec 21 13:51:18 2018 +0800
+
+    init readme
+```
 
 ![image.png](https://upload-images.jianshu.io/upload_images/143845-349c4da8f199336a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-## 远程仓库
-#### git clone 
-下载远程仓库到本地 git clone <版本库的网址>例如远程仓库地址是https://git.coding.net/baxiang/gitTest.git，执行下载到本地命令
+#### 文件差异比较
+git diff 比较的是工作区和暂存区的差别
 ```
-git clone https://git.coding.net/baxiang/gitTest.git
+git diff
+diff --git a/README.md b/README.md
+index 57edfa4..2ca7848 100644
+--- a/README.md
++++ b/README.md
+@@ -1 +1 @@
+-test git
++git note
 ```
-#### git remote
-git remote命令列出所有远程主机
+git diff --cached  比较的是暂存区和版本库的差别
 ```
-$ git remote -v
-origin	https://git.coding.net/baxiang/gitTest.git (fetch)
-origin	https://git.coding.net/baxiang/gitTest.git (push)
+git diff --cached
+diff --git a/README.md b/README.md
+index 9daeafb..57edfa4 100644
+--- a/README.md
++++ b/README.md
+@@ -1 +1 @@
+-test
++test git
 ```
-git remote add命令用于添加远程主机
+git diff HEAD 可以查看工作区和版本库的差别
 ```
-git remote add <主机名> <网址>
+git diff HEAD
+diff --git a/README.md b/README.md
+index 9daeafb..2ca7848 100644
+--- a/README.md
++++ b/README.md
+@@ -1 +1 @@
+-test
++git note
 ```
-删除远程主机
+##git stash  暂存
 ```
- git remote rm <主机名>
+$ rm text.txt
+$ git status
+位于分支 master
+尚未暂存以备提交的变更：
+  （使用 "git add/rm <文件>..." 更新要提交的内容）
+  （使用 "git checkout -- <文件>..." 丢弃工作区的改动）
+
+	删除：     text.txt
+
+修改尚未加入提交（使用 "git add" 和/或 "git commit -a"）
+$ git stash
+Saved working directory and index state WIP on master: 972cc6e rollback two
+$ git status
+位于分支 master
+无文件要提交，干净的工作区
 ```
-####git push
-命令用于将本地分支的更新，推送到远程主机
+查看当前暂存记录
 ```
-git push <远程主机名> <本地分支名>:<远程分支名>
+$ git stash list
+stash@{0}: WIP on master: 972cc6e rollback two
 ```
+使用git stash apply恢复，但是需要注意的是stash内容并不删除，代表着可以重复使用，你需要用git stash drop来删除
 ```
-git push origin master
+git stash apply
+删除 text.txt
+位于分支 master
+尚未暂存以备提交的变更：
+  （使用 "git add/rm <文件>..." 更新要提交的内容）
+  （使用 "git checkout -- <文件>..." 丢弃工作区的改动）
+
+	修改：     README.md
+	删除：     text.txt
+
+修改尚未加入提交（使用 "git add" 和/或 "git commit -a"）
 ```
-命令表示，将本地的master分支推送到origin主机的master分支。如果master不存在，则会被新建。
-如果省略本地分支名，则表示删除指定的远程分支，因为这等同于推送一个空的本地分支到远程分支。
+使用git stash pop 会直接删除暂存记录
 ```
-$ git push origin :master
-# 等同于
-$ git push origin --delete master
+$ git stash pop
+删除 text.txt
+位于分支 master
+尚未暂存以备提交的变更：
+  （使用 "git add/rm <文件>..." 更新要提交的内容）
+  （使用 "git checkout -- <文件>..." 丢弃工作区的改动）
+
+	删除：     text.txt
+
+修改尚未加入提交（使用 "git add" 和/或 "git commit -a"）
+Dropped refs/stash@{0} (c894dd4530c7826a438ec784d53d8328960b0c9c)
 ```
-上面命令表示删除origin主机的master分支。如果当前分支与远程分支之间存在追踪关系，则本地分支和远程分支都可以省略。
+
+####忽略文件
+在工作区创建名称是.gitignore的文件，在GitHub的开源工程/gitignorehttps://github.com/github/gitignore提供了常用开发语言的忽略文件内容
+![image.png](https://upload-images.jianshu.io/upload_images/143845-0bb197f41e206c5d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ```
-$ git push origin
-```
-上面命令表示，将当前分支推送到origin主机的对应分支。如果当前分支只有一个追踪分支，那么主机名都可以省略。
-```
-$ git push
-```
-如果当前分支与多个主机存在追踪关系，则可以使用-u选项指定一个默认主机，这样后面就可以不加任何参数使用git push。
-```
-$ git push -u origin master
-```
-上面命令将本地的master分支推送到origin主机，同时指定origin为默认主机，后面就可以不加任何参数使用git push了。
-####  git fetch
-拉取远程主机的版本库的更新
-```
- git fetch <远程主机名>
+$ echo '*.cpp' > .gitignore
+$ touch test.cpp
+$ git status
+位于分支 master
+未跟踪的文件:
+  （使用 "git add <文件>..." 以包含要提交的内容）
+
+	.gitignore
+
+提交为空，但是存在尚未跟踪的文件（使用 "git add" 建立跟踪）
 ```

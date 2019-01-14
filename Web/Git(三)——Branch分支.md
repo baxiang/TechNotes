@@ -90,3 +90,55 @@ git branch –set-upstream 本地新建分支名 origin/远程分支名
 ```
 git clone -b 分支名仓库地址
 ```
+####cherry-pick合并分支某次commit
+例如要将A分支的一个commit合并到B分支,就需要使用到cherry-pick
+首先切换到A分支
+```
+$git checkout A
+$git log
+commit ecd4f07cd150fab7d55cabd00993d60a6720bd44
+Author: baxiang <baxiang@roobo.com>
+Date:   Thu Dec 20 17:30:07 2018 +0800
+
+    去掉空格判断
+```
+然后切换到B分支上
+```
+$git checkout B
+$git cherry-pick  ecd4f07cd150fab7d55cabd00993d60a6720bd44
+```
+然后就将A分支的某个commit合并到了B分支了
+####分离头指针
+```
+git checkout b5b7d12749
+注意：正在检出 'b5b7d12749'。
+
+您正处于分离头指针状态。您可以查看、做试验性的修改及提交，并且您可以通过另外
+的检出分支操作丢弃在这个状态下所做的任何提交。
+
+如果您想要通过创建分支来保留在此状态下所做的提交，您可以通过在检出命令添加
+参数 -b 来实现（现在或稍后）。例如：
+
+  git checkout -b <新分支名>
+
+HEAD 目前位于 b5b7d12 update index
+```
+查看当前分支状态
+```
+$ git branch
+  dev
+  master
+* （头指针分离于 b5b7d12）
+```
+修改 README.md
+```
+ git status
+头指针分离于 b5b7d12
+尚未暂存以备提交的变更：
+  （使用 "git add <文件>..." 更新要提交的内容）
+  （使用 "git checkout -- <文件>..." 丢弃工作区的改动）
+
+	修改：     README.md
+
+修改尚未加入提交（使用 "git add" 和/或 "git commit -a"）
+```

@@ -114,10 +114,13 @@ Updating / installing...
    1:mysql-community-server-5.7.22-1.e################################# [100%]
 # systemctl start mysqld.service
 ```
-
+重启服务
+```
+systemctl restart mysqld.service
+```
 ####增加新的远程登录用户
 ```
-create user 'baxiang'@'%' identified by 'baxiang';
+create user 'test'@'%' identified by 'test';
 ```
 ##MAC OS安装
 ```brew安装
