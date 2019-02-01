@@ -130,8 +130,7 @@ vim .bash_profile
 增加bin配置
 ```
 export GOPATH=$HOME/go
-export GOBIN=$GOPATH/bin
-export PATH=$PATH:$GOBIN
+export PATH=$PATH:$GOPATH/bin
 ```
  退出vim，执行下面的命令完成对golang环境变量的配置。
 ```

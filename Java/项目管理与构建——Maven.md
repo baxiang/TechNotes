@@ -1,6 +1,30 @@
 ##下载与安装
 Maven下载地址http://maven.apache.org/download.cgi
 ![image.png](https://upload-images.jianshu.io/upload_images/143845-b709c7aa1f1f0dcf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+####Linux 安装
+```
+# cd /usr/local
+# mkdir maven
+# cd maven
+# wget http://mirrors.tuna.tsinghua.edu.cn/apache/maven/maven-3/3.6.0/binaries/apache-maven-3.6.0-bin.tar.gz
+# tar -zxvf apache-maven-3.6.0-bin.tar.gz
+```
+配置环境变量
+```
+# vim /etc/profile
+export MAVEN_HOME=/usr/local/maven/apache-maven-3.6.0
+export PATH=$PATH:$MAVEN_HOME/bin
+$ source ~/.bashrc
+```
+验证安装结果
+```
+$ mvn -v
+Apache Maven 3.6.0 (97c98ec64a1fdfee7767ce5ffb20918da4f719f3; 2018-10-25T02:41:47+08:00)
+Maven home: /usr/local/maven/apache-maven-3.6.0
+Java version: 1.8.0_191, vendor: Oracle Corporation, runtime: /usr/java/jdk1.8.0_191-amd64/jre
+Default locale: zh_CN, platform encoding: UTF-8
+OS name: "linux", version: "4.19.13-300.fc29.x86_64", arch: "amd64", family: "unix"
+```
 
 ####Mac 安装
 ```

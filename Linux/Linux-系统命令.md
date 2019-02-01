@@ -40,16 +40,7 @@ pidof
 Mem:           1.8G        285M        147M        352K        1.4G        1.3G
 Swap:            0B          0B          0B
 ```
-## 输入输出重定向
-```
-# echo "hello world" > readme.txt
-# cat readme.txt
-hello world
-# echo "hello java" >> readme.txt
-# cat readme.txt
-hello world
-hello java
-```
+
 ##转移字符
 反斜杠（\）反斜杠后面的一个变量变成单纯的字符串
 单引号('')转义其中的变量为单纯的字符串

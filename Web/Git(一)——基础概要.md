@@ -76,6 +76,14 @@ git config --system/--global/ --local user.name "Your Name"
  git config --global --list #查看全局级的配置清单
 git config --system -l # 查看系统级的配置清单
 ```
+####配置全局忽略文件
+
+定义Git全局的 .gitignore 文件
+除了可以在项目中定义 .gitignore 文件外，还可以设置全局的git .gitignore文件来管理所有Git项目的行为。这种方式在不同的项目开发者之间是不共享的，是属于项目之上Git应用级别的行为。这种方式也需要创建相应的 .gitignore 文件，可以放在任意位置。然后在使用以下命令配置Git：
+```
+# git config --global core.excludesfile ~/.gitignore
+```
+首先要强调一点，这个文件的完整文件名就是".gitignore"，注意最前面有个“.”。一般来说每个Git项目中都需要一个“.gitignore”文件，这个文件的作用就是告诉Git哪些文件不需要添加到版本管理中。
 ####创建SSH Key
 ```
 $ ssh-keygen -t rsa -C "youremail@example.com"

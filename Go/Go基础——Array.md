@@ -2,6 +2,7 @@
 &emsp;&emsp;数组是同一类型元素的集合。例如，整数集合 5,8,9,79,76 形成一个数组。数组是有固定长度的，因此需要初始化数组是声明长度。数组属于值类型的，即将一个数组赋值给另外一个数组的时候，实际上就是将整个数组拷贝一份。
 ### 数组的声明
 一个数组的需要做到2点：1存储元素的数量，2指明存储数据的类型。其表示形式为 `[n]T`。`n` 表示数组中元素的数量，`T` 代表每个元素的类型，数组一旦声明后，其大小和类型都不能改变。
+**var <数组名称> [<数组长度>]<元素类型>**
 ```
 package main
 
@@ -31,10 +32,11 @@ func main() {
     a[1] = 78
     a[2] = 50
     fmt.Println(a)
+   //输出 `[12 78 50]`。
 }
 
 ```
-a[0] 将值赋给数组的第一个元素。该程序将 输出 `[12 78 50]`。
+**var <数组名称> = [<数组长度>]<元素类型>{元素1,元素2,...}**
 ```
 package main
 
@@ -79,6 +81,94 @@ func main() {
 }
 
 ```
+**var <数组名称> = [<数组长度>]<元素类型>{索引1:元素1,索引2:元素2,…}**
+```
+func validHeaderFieldByte(b byte) bool {
+	return int(b) < len(isTokenTable) && isTokenTable[b]
+}
+
+var isTokenTable = [127]bool{
+	'!':  true,
+	'#':  true,
+	'$':  true,
+	'%':  true,
+	'&':  true,
+	'\'': true,
+	'*':  true,
+	'+':  true,
+	'-':  true,
+	'.':  true,
+	'0':  true,
+	'1':  true,
+	'2':  true,
+	'3':  true,
+	'4':  true,
+	'5':  true,
+	'6':  true,
+	'7':  true,
+	'8':  true,
+	'9':  true,
+	'A':  true,
+	'B':  true,
+	'C':  true,
+	'D':  true,
+	'E':  true,
+	'F':  true,
+	'G':  true,
+	'H':  true,
+	'I':  true,
+	'J':  true,
+	'K':  true,
+	'L':  true,
+	'M':  true,
+	'N':  true,
+	'O':  true,
+	'P':  true,
+	'Q':  true,
+	'R':  true,
+	'S':  true,
+	'T':  true,
+	'U':  true,
+	'W':  true,
+	'V':  true,
+	'X':  true,
+	'Y':  true,
+	'Z':  true,
+	'^':  true,
+	'_':  true,
+	'`':  true,
+	'a':  true,
+	'b':  true,
+	'c':  true,
+	'd':  true,
+	'e':  true,
+	'f':  true,
+	'g':  true,
+	'h':  true,
+	'i':  true,
+	'j':  true,
+	'k':  true,
+	'l':  true,
+	'm':  true,
+	'n':  true,
+	'o':  true,
+	'p':  true,
+	'q':  true,
+	'r':  true,
+	's':  true,
+	't':  true,
+	'u':  true,
+	'v':  true,
+	'w':  true,
+	'x':  true,
+	'y':  true,
+	'z':  true,
+	'|':  true,
+	'~':  true,
+}
+```
+
+
 同样类型的数组是可以相互赋值的，相同类型的数组必须是长度一样，并且每个元素的类型也一样的数组，因此数组的大小是类型的一部分。因此 `[5]int` 和 `[25]int` 是不同类型。
 ```
 package main
