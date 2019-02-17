@@ -84,6 +84,11 @@ git config --system -l # 查看系统级的配置清单
 # git config --global core.excludesfile ~/.gitignore
 ```
 首先要强调一点，这个文件的完整文件名就是".gitignore"，注意最前面有个“.”。一般来说每个Git项目中都需要一个“.gitignore”文件，这个文件的作用就是告诉Git哪些文件不需要添加到版本管理中。
+#### 修改git默认编辑器为Vim
+ linux中的git默认的编辑器nano,nano进行编辑提交的页面，退出方法为：Ctrl + X然后输入y再然后回车，就可以退出了
+如果你想把默认编辑器nano换成git 
+方法一、在GIT配置中设置 core.editor: git config --global core.editor vim
+方法二、修改.gitconfig文件。在core中添加editor = vim。如此以后在使用git的时候就自动使用vim作为编辑器 
 ####创建SSH Key
 ```
 $ ssh-keygen -t rsa -C "youremail@example.com"

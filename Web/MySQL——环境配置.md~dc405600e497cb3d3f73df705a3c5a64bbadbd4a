@@ -1,7 +1,6 @@
 |修改时间|增加内容|
 |----|------|
 |2019-01-30|增加yum安装方式|
-|2019-02-13|增加mycli的介绍|
 ####Ubuntu 安装
  使用apt-get
 ```
@@ -427,13 +426,4 @@ Uptime:			3 hours 11 min 3 sec
 重新启动
 ```
 sudo ./mysql.server restart
-```
-#### mycli工具
-mycli是MySQL，MariaDB和Percona的命令行界面，具有自动完成和语法高亮功能。https://github.com/dbcli/mycli
-![图片.png](http://upload-images.jianshu.io/upload_images/143845-0530fc4d2d1a7a6f.gif?imageMogr2/auto-orient/strip)
-安装方式
-```
-$ brew update && brew install mycli  # Only on macOS
-$ sudo apt-get install mycli # Only on debian or ubuntu
-$ sudo dnf install mycli # Fedora
 ```
