@@ -1,6 +1,8 @@
 ##Linux的压缩包安装方式
 Golang的官方下载地址https://golang.org/dl/
+
 ![image.png](https://upload-images.jianshu.io/upload_images/143845-e6b046e71caf9552.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 1. 下载最新版本的压缩包
 ```
 wget https://dl.google.com/go/go1.10.3.linux-amd64.tar.gz
