@@ -1,4 +1,6 @@
 ####Hadoop简介
+官方地址：http://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-hdfs/HdfsDesign.html
+
 Hadoop是一个开源的大数据框架，Hadoop是一个分布式计算的解决方案，Hadoop=HDFS(分布式文件系统)+MapReduce(分布式计算)
 ####HDFS分布式文件系统
 存储是大数据技术的基础

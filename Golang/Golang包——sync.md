@@ -34,7 +34,7 @@ func (rw *RWMutex) RUnlock()
 若对一个未被写锁定的读写锁进行写解锁，会引起一个运行时的恐慌
 而对一个未被读锁定的读写锁进行读解锁却不会如此`
 ## sync.WaitGroup
-sync包中的WaitGroup实现了一个类似任务队列的结构，你可以向队列中加入任务，任务完成后就把任务从队列中移除，如果队列中的任务没有全部完成，队列就会触发阻塞以阻止程序继续运行主要有以下三个方法
+sync包中的WaitGroup实现了一个类似任务队列的结构，你可以向队列中加入任务，任务完成后就把任务从队列中移除，如果队列中的任务没有全部完成，队列就会触发阻塞以阻止程序继续运行。WaitGroup主要有以下三个方法
 ```
 // 计数器增加 delta，delta 可以是负数。
 func (wg *WaitGroup) Add(delta int)
@@ -43,29 +43,30 @@ func (wg *WaitGroup) Done()
 // 等待直到计数器归零。如果计数器小于 0，则该操作会引发 panic。
 func (wg *WaitGroup) Wait()
 ```
-某个地方需要创建多个goroutine，并且一定要等它们都执行完毕后再继续执行接下来的操作。
-是的，WaitGroup最大的优点就是.Wait()可以阻塞到队列中的任务都完毕后才解除阻塞。
+add 会给WaitGroup的counter加1，done会给WaitGroup的counter减1，当WaitGroup的counter的是0 则解除阻塞，否则一定要等任务都执行完毕后再继续执行接下来的操作。
 ```
+import (
+	"fmt"
+	"math/rand"
+	"sync"
+	"time"
+)
+
+func work(name string,workTime time.Duration,sysGroup *sync.WaitGroup){
+	defer sysGroup.Done()
+	fmt.Printf("%s start work\n",name)
+	time.Sleep(time.Second*workTime)
+	fmt.Printf("After %d sec %s finid work\n",workTime,name)
+}
+
 func main() {
-	var wg sync.WaitGroup
-	wg.Add(2)
-	fmt.Println("协程start")
-	go func() {
-		defer wg.Done()
-        for i := 0;i<100;i++{
-        	time.Sleep(1)
-        	fmt.Printf("协程1————%d\n",i)
-		}
-	}()
-	go func() {
-		defer wg.Done()
-		for i := 0;i<100;i++{
-			time.Sleep(1)
-			fmt.Printf("协程2————%d\n",i)
-		}
-	}()
-    wg.Wait()
-	fmt.Println("协程finish")
+    var sysGroup sync.WaitGroup
+    for i :=0;i<3;i++{
+		sysGroup.Add(1)
+		go work(fmt.Sprintf("Worker-%d",i), time.Duration(rand.Intn(10)),&sysGroup)
+	}
+    sysGroup.Wait()
+	fmt.Printf("all people finish work\n")
 }
 ```
 ## sync.Once

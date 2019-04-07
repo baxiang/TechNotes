@@ -22,10 +22,10 @@ git branch -d 分支名
 ```
 git branch -D branchName
 ```
-删除远程分支
+删除远程分支，注意第一种方法 origin 后面有空格
 ```
-git push origin :br01
-或者git push origin --delete br01
+git push origin :分支名称 
+或者git push origin --delete 分支名称 
 ```
 分支重命名
 ```
@@ -88,7 +88,7 @@ git branch –set-upstream 本地新建分支名 origin/远程分支名
 ```
 直接拉取远程分支的代码到本地
 ```
-git clone -b 分支名仓库地址
+git clone -b 分支名 仓库地址
 ```
 ####cherry-pick合并分支某次commit
 例如要将A分支的一个commit合并到B分支,就需要使用到cherry-pick
@@ -142,3 +142,17 @@ $ git branch
 
 修改尚未加入提交（使用 "git add" 和/或 "git commit -a"）
 ```
+查看当前分支来源于哪个分支
+```
+git reflog show <childBranch>
+```
+####远程代码库回滚
+先将本地分支退回到某个commit，删除远程分支，再重新push本地分支
+操作步骤：
+1、git checkout the_branch
+2、git pull
+3、git branch the_branch_backup //备份一下这个分支当前的情况
+4、git reset --hard the_commit_id //把the_branch本地回滚到the_commit_id
+5、git push origin :the_branch //删除远程 the_branch
+6、git push origin the_branch //用回滚后的本地分支重新建立远程分支
+7、git push origin :the_branch_backup //如果前面都成功了，删除这个备份分支

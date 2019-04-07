@@ -80,3 +80,56 @@ https://www.balena.io/etcher/
 安装方式介绍
 https://github.com/balena-io/etcher
 ![image.png](https://upload-images.jianshu.io/upload_images/143845-c64417e10ca44ec4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+####flameshot
+截图软件 https://github.com/lupoDharkael/flameshot
+![image](http://upload-images.jianshu.io/upload_images/143845-2dc577f45ba865da.gif?imageMogr2/auto-orient/strip)
+配置快捷键
+![图片.png](https://upload-images.jianshu.io/upload_images/143845-2bc882095d948109.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+####Oh My ZSH
+
+![image.png](https://upload-images.jianshu.io/upload_images/143845-a7e2807e579ee7c7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+查看系统当前使用的shell,一般默认都是bin/bash
+```
+$ echo $SHELL 
+/bin/bash
+```
+
+查看系统是否安装了zsh,centos7 没有安装，macos 和unbuntu默认安装了
+```
+$ cat /etc/shells 
+/bin/sh
+/bin/bash
+/sbin/nologin
+/usr/bin/sh
+/usr/bin/bash
+/usr/sbin/nologin
+/bin/tcsh
+/bin/csh
+```
+安装方式
+通过curl
+```source-shell
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+```
+通过 wget
+```source-shell
+sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+```
+####安装常见问题
+E: 无法修正错误，因为您要求某些软件包保持现状，就是它们破坏了软件包间的依赖关系。
+```
+下列软件包有未满足的依赖关系：
+ terminator : 依赖: python-support (>= 0.90.0) 但是它将不会被安装
+              依赖: python-vte 但是它将不会被安装
+              推荐: python-gnome2 但是它将不会被安装
+              推荐: python-keybinder 但是它将不会被安装
+E: 无法修正错误，因为您要求某些软件包保持现状，就是它们破坏了软件包间的依赖关系。
+````
+打开更新设置，在“更新”选项卡中选则：重要安全更新 和 推荐更新
+![图片.png](https://upload-images.jianshu.io/upload_images/143845-ac65ac832541095d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+
+
+

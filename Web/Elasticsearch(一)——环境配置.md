@@ -32,13 +32,6 @@ sudo systemctl start elasticsearch.service
 ##Mac OS安装
 ```
  brew install elasticsearch
-Updating Homebrew...
-==> Auto-updated Homebrew!
-Updated 1 tap (homebrew/core).
-==> Updated Formulae
-armadillo             dartsim               field3d               gmt                   hdf5                  libbi                 nco                   netcdf                pcl                   sratoolkit
-caffe                 dynare                flann                 gmt@4                 kallisto              libmatio              ncview                octave                pdal                  vtk
-
 ==> Downloading https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.2.4.tar.gz
 ######################################################################## 100.0%
 ==> Caveats

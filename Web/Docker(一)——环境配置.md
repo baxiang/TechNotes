@@ -98,10 +98,22 @@ docker提供给中国大陆地区的加速器,同样也是修改 /etc/docker/dae
 }
 记得修改加速器都需要保存后重启 Docker 才能使配置生效。
 ```
-
+####非root用户执行docker 
+```
+docker pull mysql:5.7
+Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Post http://%2Fvar%2Frun%2Fdocker.sock/v1.39/images/create?fromImage=mysql&tag=5.7: dial unix /var/run/docker.sock: connect: permission denied
+```
+原因
+docker进程使用Unix Socket而不是TCP端口。而默认情况下，Unix socket属于root用户，需要root权限才能访问,一种是使用sudo 
+```
+Manage Docker as a non-root user
+The docker daemon binds to a Unix socket instead of a TCP port. By default that Unix socket is owned by the user root and other users can only access it using sudo. The docker daemon always runs as the root user.
+If you don’t want to use sudo when you use the docker command, create a Unix group called docker and add users to it. When the docker daemon starts, it makes the ownership of the Unix socket read/writable by the docker group.
+```
 添加非root用户到docker组
 ```
 sudo usermod -aG docker 用户名
+sudo gpasswd -a $USER docker     #将登陆用户加入到docker用户组中
 ```
 ```
 sudo usermod -aG docker baxiang

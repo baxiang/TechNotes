@@ -182,3 +182,11 @@ func main() {
 	fmt.Println(x,y,z,w)
 }
 ```
+位运算方式
+```
+const (
+	Open = 1 << iota //1
+	Close //2
+	Pending //4
+)
+```

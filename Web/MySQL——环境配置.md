@@ -2,6 +2,42 @@
 |----|------|
 |2019-01-30|增加yum安装方式|
 |2019-02-13|增加mycli的介绍|
+|2019-03-13|docker安装mysql|
+####Docker安装Mysql
+下载mysql官方镜像，选择的tag版本是5.7
+```
+$ docker pull mysql:5.7
+...
+Digest: sha256:de482b2b0fdbe5bb142462c07c5650a74e0daa31e501bc52448a2be10f384e6d
+Status: Downloaded newer image for mysql:5.7
+```
+查看MySQL本地镜像
+```
+$ docker images |grep mysql
+mysql               5.7                 ee7cbd482336        7 days ago          372MB
+```
+启动mysql容器
+```
+$ docker run  -p 3306:3306 --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:tag
+```
+–name：给新创建的容器命名
+-e：配置信息，此处配置mysql的root用户的登陆密码
+-p：端口映射，此处映射主机3306端口到容器的3306端口
+-d：成功启动容器后输出容器的完整ID，
+eg:
+```
+$docker run -p 3306:3306 --name mysql_57 -e MYSQL_ROOT_PASSWORD=baxiang -d mysql:5.7
+```
+查看本地容器
+```
+$ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                               NAMES
+61e7f6242c11        mysql:5.7           "docker-entrypoint.s…"   53 seconds ago      Up 52 seconds       0.0.0.0:3306->3306/tcp, 33060/tcp   mysql_57
+```
+登录mysql
+```
+docker exec -it mysql_57 bash
+```
 ####Ubuntu 安装
  使用apt-get
 ```

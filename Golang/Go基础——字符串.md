@@ -1,4 +1,3 @@
-##基础
 字符串是用一对双引号"或反引号``(键盘数字1的左边键)括起来定义，
 ```
 str :="string test"
@@ -6,10 +5,17 @@ fmt.Println(str)
 aStr := `another string`
 fmt.Println(aStr)
 ```
-字符串是不可以改变的
+注意字符串一旦赋值了，字符串是不可以修改的。
 ```
 	str :="string test"
 	str[0] = 's'
+```
+字符串的2种表现形式，双引号可以识别转义字符，单引号会按照原生输出。
+```
+        doubleStr := "adc\nnextLine"
+	fmt.Println(doubleStr)
+	singleSte := `\t adc\n nextLine`
+	fmt.Println(singleSte)
 ```
 但是可以把字符串转换成[]byte类型
 ```
@@ -19,6 +25,21 @@ fmt.Println(aStr)
 	s = string(c) 
 	fmt.Printf("%s\n", s)
 ```
+####字符串底层结构
+符串的底层结构在`reflect.StringHeader`中定义：
+
+```
+type StringHeader struct {
+    Data uintptr
+    Len  int
+}
+
+```
+
+字符串结构由两个信息组成：第一个是字符串指向的底层字节数组，第二个是字符串的字节的长度。字符串其实是一个结构体，因此字符串的赋值操作也就是`reflect.StringHeader`结构体的复制过程，并不会涉及底层字节数组的复制。在前面数组一节提到的`[2]string`字符串数组对应的底层结构和`[2]reflect.StringHeader`对应的底层结构是一样的，可以将字符串数组看作一个结构体数组。
+我们可以看看字符串“Hello, world”本身对应的内存结构：
+![image](http://upload-images.jianshu.io/upload_images/143845-62c1fe6b99c145e7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 ## 字符串操作
 ####包含
 ```
@@ -96,8 +117,7 @@ Repeat(s string, count int) string 新生成一个s重复几次的字符串
 ```
 ## 字符串转换
 字符串转化的函数在strconv中，如下也只是列出一些常用的：
-
-- Append 系列函数将整数等转换为字符串后，添加到现有的字节数组中。
+####Append 系列函数将整数等转换为字符串后，添加到现有的字节数组中。
 
 ```Go
 
@@ -118,7 +138,7 @@ func main() {
 }
 ```
 
-- Format 系列函数把其他类型的转换为字符串
+####Format 系列函数把其他类型的转换为字符串
 ```Go
 
 package main
@@ -138,8 +158,7 @@ func main() {
 }
 
 ```
-- Parse 系列函数把字符串转换为其他类型
-
+####Parse 系列函数把字符串转换为其他类型
 ```Go
 
 package main
@@ -168,7 +187,7 @@ func main() {
 }
 
 ```
-##字符串遍历
+####字符串遍历
 range 在字符串中迭代 unicode 编码。第一个返回值是rune 的起始字节位置，然后第二个是 rune 自己。
 ```
 for index,value := range "123ABCabc"{

@@ -43,10 +43,8 @@ func main() {
 ```
 上面程序会输出 `value of a is 89 and b is 95`。在上述程序中，a 是 int 类型，而 b 的类型通过赋值（95）推断得出。上面我们提到，int 类型的大小在 32 位系统下是 32 位，而在 64 位系统下是 64 位。接下来我们会证实这种说法。
 
-在 Printf 方法中，使用 **%T** 格式说明符（Format Specifier），可以打印出变量的类型。Go 的 [unsafe](https://golang.org/pkg/unsafe/) 包提供了一个 [Sizeof](https://golang.org/pkg/unsafe/#Sizeof) 函数，该函数接收变量并返回它的字节大小。*unsafe* 包应该小心使用，因为使用 unsafe 包可能会带来可移植性问题。不过出于本教程的目的，我们是可以使用的。
-
+在 Printf 方法中，使用 **%T** 格式说明符（Format Specifier），可以打印出变量的类型。Go 的 [unsafe](https://golang.org/pkg/unsafe/) 包提供了一个 [Sizeof](https://golang.org/pkg/unsafe/#Sizeof) 函数，该函数接收变量并返回它的字节大小。*unsafe* 包应该小心使用，因为使用 unsafe 包可能会带来可移植性问题。
 下面程序会输出变量 a 和 b 的类型和大小。格式说明符 `%T` 用于打印类型，而 `%d` 用于打印字节大小。
-
 ```
 package main
 
@@ -64,9 +62,6 @@ func main() {
 }
 
 ```
-
-
-
 以上程序会输出：
 
 ```
@@ -177,8 +172,6 @@ func main() {
 
 ```
 
-
-
 在上面的程序里，c1 和 c2 是两个复数。c1的实部为 5，虚部为 7。c2 的实部为8，虚部为 27。c1 和 c2 的和赋值给 `cadd` ，而 c1 和 c2 的乘积赋值给 `cmul`。该程序将输出：
 
 ```
@@ -218,7 +211,6 @@ func main() {
 还有许多应用于字符串上面的操作，我们将会在一个单独的教程里看见它们。
 
 ### 类型转换
-
 Go 有着非常严格的强类型特征。Go 没有自动类型提升或类型转换。我们通过一个例子说明这意味着什么。
 
 ```
@@ -272,5 +264,19 @@ func main() {
 }
 
 ```
-
 在第 9 行，i 转换为 float64 类型，接下来赋值给 j。如果不进行类型转换，当你试图把 i 赋值给 j 时，编译器会抛出错误。
+####数据类型的默认值
+|||
+|---|---|
+|整型|0|
+|浮点型|0|
+|字符串型|""|
+|布尔型|false|
+```
+        var i int
+	var a float32
+	var b float64
+	var isMarried bool
+	var name string
+	fmt.Printf("i=%v,a=%v,b=%v,isMarried=%v,name=%v",i,a,b,isMarried,name)
+```

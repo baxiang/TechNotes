@@ -63,7 +63,14 @@ POST /province/citys/1/_update
     "name":"广州"
   }
 }
-````
+```
+删除字段
+```
+curl -XPOST 'localhost:9200/test/type1/1/_update' -d '{
+    "script" : "ctx._source.remove(\"name_of_field\")"
+}
+```
+
 #####替换数据
 ```
 PUT /province/citys/1
