@@ -1,10 +1,10 @@
 ####JDBC概述
 Java DataBase Connectivity(java 数据库连接)
 ####JDBC 
-• 加载数据库驱动
-• 建立连接
-• 创建用于向数据库发送SQL的Statement对象 • 从代表结果集的ResultSet中取出数据
-• 断开与数据库的连接，并释放相关资源
+1. 加载数据库驱动。
+2. 建立连接。
+3. 创建用于向数据库发送SQL的Statement对象 ,从代表结果集的ResultSet中取出数据。
+4. 断开与数据库的连接，并释放相关资源。。。
 pom配置文件
 ```
  <dependencies>
@@ -27,7 +27,14 @@ CREATE TABLE `user` (
 INSERT INTO `user` VALUES (1, 'xiaowang', 1);
 INSERT INTO `user` VALUES (2, 'xiaoming', 2);
 ```
-eg
+步骤
+1 注册驱动/加载驱动DriverManager.registerDriver
+2 获取连接 DriverManager.getConnection
+3 获取操作数据库的预处理对象prepareStatement
+4 执行结果SQL 得到结果集executeQuery()
+5 遍历结果集next()
+6 释放资源close
+
 ```
     public static void main(String[] args) {
         Connection conn = null;
@@ -75,6 +82,10 @@ eg
 
         }
     }
+```
+如果使用的是5的mysl版本的话 com.mysql.jdbc.Driver 而6的版本是com.mysql.cj.jdbc.Driver
+```
+DriverManager.registerDriver(new com.mysql.jdbc.Driver());
 ```
 ####API
 一、注册驱动

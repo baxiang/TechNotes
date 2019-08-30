@@ -2,7 +2,8 @@
 testing包提供了自动化测试相关的框架,测试源码文件的主名称通常已被测试源码文件的名字作为开头，文件名必须以xx_test.go结尾，例如我们的被测试源码文件名称是demo.go 那么我们测试源码文件名称应该是demo_test.go
 ####功能测试test
 1测试方法样式是func Testxxx(t *testing.T),方法名词必须以Test开头，xxx首字母需要大写，func TestFoo(t *testing.T)
-2测试方法参数必须 t *testing.T，函数中通过调用testing.T的Error, Errorf, FailNow, Fatal, FatalIf方法，说明测试不通过，调用Log方法用来记录测试的信息。
+2测试方法参数必须 t *testing.T，函数中通过调用testing.T的Error, Errorf和FailNow, Fatal, FatalIf等方法说明测试不通过，以error 打印函数不会终止测试，Fatal类型会造成该单元测试终止。
+当然通过调用Log方法用来记录测试的信息。
 eg:
 ```
 import "testing"
@@ -225,4 +226,56 @@ Warning: debugging optimized function
     12:		http.ListenAndServe(":8080",nil)
 (dlv) locals
 host = "localhost:8080"
+```
+####go tool
+```
+import "fmt"
+
+func main() {
+	fmt.Println("foo")
+	return
+	fmt.Printf("bar")
+}
+```
+在golang1.12上已经换成了go vet
+```
+go tool vet main.go
+vet: invoking "go tool vet" directly is unsupported; use "go vet"
+```
+下面执行结果表示当前代码行无法被执行的
+```
+go vet main.go
+# command-line-arguments
+./main.go:8:2: unreachable code
+```
+分析锁的问题
+```
+import (
+	"sync"
+)
+
+type Foo struct {
+	lock sync.Mutex
+}
+
+func (f *Foo) Lock() {
+	f.lock.Lock()
+}
+
+func (f Foo) Unlock() {
+	f.lock.Unlock()
+}
+
+func main() {
+	f := Foo{sync.Mutex{}}
+	f.Lock()
+	f.Unlock()
+	f.Lock()
+}
+```
+ t.lock.Unlock() 实际上是由 lock 的副本调用的。在锁传值使用了值传递 需要修改，否则出现死锁。
+```
+ go vet main.go
+# command-line-arguments
+./main.go:15:9: Unlock passes lock by value: command-line-arguments.Foo
 ```

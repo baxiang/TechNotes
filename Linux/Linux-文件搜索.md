@@ -1,18 +1,21 @@
 ####find
-* 匹配任意内容
-？ 匹配任意一个字符
+```shell
+find 搜索路径［选项］搜索关键字
+```
+\* 匹配任意内容
+？匹配任意一个字符
 [] 匹配任意一个中括号内的字符
 不区分大小写查找文件
-```
+```shell
 $find ~ -iname test.txt
 ```
 安装文件所有者查找
-```
+```shell
 # find /root -user root
 ```
-**时间搜索**
-```
- find . {-atime/-ctime/-mtime/-amin/-cmin/-mmin} [-/+]num
+时间搜索
+``` shell
+# find . {-atime/-ctime/-mtime/-amin/-cmin/-mmin} [-/+]num
 ```
 1 .第一个参数“.”，代表当前目录，如果是其他目录，可以输入绝对目录和相对目录位置；
   2.第二个参数分两部分，前面字母a、c、m为操作类型，后面time为日期，min为分钟（注意只能以time、min作为单位）；

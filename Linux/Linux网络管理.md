@@ -1,3 +1,10 @@
+|修改时间|修改内容|
+|---|---|
+|2019-04-12|增加防火墙|
+
+####iproute
+ip
+ss
 ####CentOS 7 虚拟机网络配置
  CentOS 7 安装到了虚拟机里面，结果发现不能联网，一直提示Cannot find a valid baseurl for repo: base/7/x86_64
 ![image.png](https://upload-images.jianshu.io/upload_images/143845-cd0e4f805997c2d3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
@@ -68,6 +75,7 @@ centos 6
 ```
 service network restart
 ```
+##net-tools
 ####ifconfig
 在centos7上，可以使用“ip addr”和“ip link”命令来查找网卡详情。ifconfig命令已经被弃用，如果怀旧需要使用ifconfig，可以执行命令
 ```
@@ -93,8 +101,6 @@ lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
         TX packets 64  bytes 5440 (5.3 KiB)
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 ```
-
-
 查看网卡信息
 ```
     ifconfig eth0
@@ -127,7 +133,7 @@ ifdown 网卡设备名
 ```
 ifup 网卡设备
 ```
-### netstat
+####netstat
 查询网络状态
 -t 列出TCP协议服务
 -u 列出UDP 协议服务
@@ -178,7 +184,6 @@ Name:	www.a.shifen.com
 Address: 119.75.217.26
 ```
 ####traceroute 路由跟踪命令
-
 ```
 # traceroute www.baidu.com
 traceroute to www.baidu.com (119.75.217.26), 30 hops max, 60 byte packets
@@ -214,3 +219,77 @@ tcpdump -i ens33 -nnx port 22
 -nn 将数据包中的域名与服务转换为IP和端口
 -X 以十六进制和ASCII 码显示数据包内容
 port 指定监听的端口
+####防火墙Centos7
+开启防火墙
+```
+systemctl start firewalld
+```
+关闭防火墙
+```
+systemctl stop firewalld
+```
+永久关闭防火墙
+```
+# systemctl disable firewalld
+Removed symlink /etc/systemd/system/multi-user.target.wants/firewalld.service.
+Removed symlink /etc/systemd/system/dbus-org.fedoraproject.FirewallD1.service.
+```
+开机自启动防火墙
+```
+# systemctl enable firewalld
+Created symlink from /etc/systemd/system/dbus-org.fedoraproject.FirewallD1.service to /usr/lib/systemd/system/firewalld.service.
+Created symlink from /etc/systemd/system/multi-user.target.wants/firewalld.service to /usr/lib/systemd/system/firewalld.service.
+```
+查看防火墙策略` iptables -nL `
+```
+# iptables -nL  
+#-n 使用数字形式（numeric）显示输出结果
+#-L 列出（list）指定链中所有的规则进行查看
+#target代表进行的动作，一般会由三种不同的动作，详细解释如下
+ （1）ACCEPT:接受数据包
+ （2）REJECT： 拒绝数据包通过，必要时会给数据发送端一个响应的信息。
+ （3）DROP 直接丢弃数据包，不给任何回应信息
+# prot：代表使用的封包协定，主要有 tcp, udp 及 icmp 三种封包格式
+# opt :解释说明
+#source :来源地址的闲置
+#destination:目标地址进行限制
+```
+永久开启80端口
+```
+# firewall-cmd --zone=public --add-port=80/tcp --permanent
+success
+```
+
+重新载入
+```
+firewall-cmd --reload
+```
+查看打开的端口
+```
+# firewall-cmd --zone=public --list-ports
+80/tcp
+```
+
+永久关闭80端口
+```
+ firewall-cmd --zone=public --remove-port=80/tcp --permanent
+success
+```
+查询public区域是否允许请求 SSH 和 HTTP/HTTPS 协议的流量：
+ ```shell
+# firewall-cmd --zone=public --query-service=ssh
+yes
+# firewall-cmd --zone=public --query-service=http
+yes
+#  firewall-cmd --zone=public --query-service=https
+yes
+```
+设置 firewalld 服务中 HTTP 和 HTTPS 服务为永久允许，并立即生效：
+```shell
+# firewall-cmd --permanent --zone=public --add-service=http
+  success
+# firewall-cmd --permanent --zone=public --add-service=https
+  success
+# firewall-cmd --reload
+  success
+```

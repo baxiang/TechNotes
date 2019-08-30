@@ -1,3 +1,4 @@
+
 Homebrew 是 macOS 下的包管理工具，类似于 centos 下的 yum，ubuntu下的apt 可以很方便地进行安装/卸载/更新各种软件包，brew 官网：https://brew.sh/
 ![image.png](https://upload-images.jianshu.io/upload_images/143845-c2c8e042376ed892.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 安装 Homebrew
@@ -88,4 +89,15 @@ kibana			openssl			redis.conf
 ```
  ls /usr/local/var/log
 elasticsearch	mongodb		nginx		redis.log	zookeeper
+```
+##HomeBrew update更新后的问题
+```
+/usr/local/Homebrew/Library/Homebrew/global.rb:12:in `require': cannot load such file -- active_support/core_ext/object/blank (LoadError)
+	from /usr/local/Homebrew/Library/Homebrew/global.rb:12:in `<top (required)>'
+	from /usr/local/Homebrew/Library/Homebrew/brew.rb:23:in `require_relative'
+	from /usr/local/Homebrew/Library/Homebrew/brew.rb:23:in `<main>'
+```
+执行命令
+```
+brew update-reset
 ```

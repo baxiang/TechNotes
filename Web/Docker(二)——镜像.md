@@ -64,6 +64,11 @@ latest: Pulling from library/centos
 Digest: sha256:6f6d986d425aeabdc3a02cb61c02abb2e78e57357e92417d6d58332856024faf
 Status: Downloaded newer image for centos:latest
 ```
+如果出现`Error response from daemon: pull access denied for centos7, repository does not exist or may require 'docker login'`需要登执行登陆dockerhub
+```
+ $docker login       
+Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
+```
 拉取ubuntu 版本是16.04的镜像
 ```
 pull ubuntu:16.04

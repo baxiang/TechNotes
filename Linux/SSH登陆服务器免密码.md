@@ -1,3 +1,31 @@
+
+
+````
+$ ssh-keygen -C"baxiang@roobo.com"
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/baxiang/.ssh/id_rsa): 
+Created directory '/home/baxiang/.ssh'.
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /home/baxiang/.ssh/id_rsa.
+Your public key has been saved in /home/baxiang/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:T/xaWUh9DDLE+ZVxk5D8ApaGbqo7GK9xQ7YVgQFHVdE baxiang@roobo.com
+The key's randomart image is:
++---[RSA 2048]----+
+|   .o++o.o+o*o+o=|
+|    ..  .. Eo* =+|
+|       .. o o.o.o|
+|        .+ . o.o |
+|     o .S o . o  |
+|   .o o. o . o   |
+|   .++.   . +    |
+|   .o+.    o     |
+|   ...o   .      |
++----[SHA256]-----+
+`````
+
+
 但是后来发现原本好使的SSH再次登陆服务器时却提示：Permission denied (publickey).的错误。解决办法是用 ssh-add privateKey
 ssh-add 永久将私钥添加到 Keychain
       我们配置完SSH之后执行 ssh-add privateKey 将 SSH 的私钥添加进去，但是发现了一个问题就是每次重启电脑后都需要重新 ssh-add，显然每次重启后都需要重新添加让我等程序员肯定受不了，解决办法就是在添加 ssh 私钥的时候使用如下命令： ssh-add -K privateKey，即可一劳永逸将私钥添加进 Mac 本身的钥匙串中，即 Keychain。下面简单解释下原理。

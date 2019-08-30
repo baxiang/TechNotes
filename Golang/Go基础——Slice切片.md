@@ -2,6 +2,7 @@
 |---|----|
 |2019-04-02|切片大小和切片容量和扩容的解释|
 |2019-04-05|go中值类型和引用类型|
+|2019-08-07|切片清空数据|
 ####概述
 1.切片是引用类型，数组和切片有着紧密的关联，slice的底层是引用一个数组对象,可以理解为切片是对数组的封装
 2一个slice由三个部分构成：指针、长度和容量。指针指向第一个slice元素对应的底层数组元素的地址。
@@ -409,4 +410,50 @@ s2 [0 0 0 0 0]
 s2 [1 2 3 4 5]
 s3 [1 2 3]
 s4 [0 3 4 0]
+```
+##清空数据
+how-do-you-clear-a-slice-in-go(https://stackoverflow.com/questions/16971741/how-do-you-clear-a-slice-in-go)
+```
+package main
+
+import (
+    "fmt"
+)
+
+func dump(letters []string) {
+    fmt.Println("letters = ", letters)
+    fmt.Println(cap(letters))
+    fmt.Println(len(letters))
+    for i := range letters {
+        fmt.Println(i, letters[i])
+    }
+}
+
+func main() {
+    letters := []string{"a", "b", "c", "d"}
+    dump(letters)
+    // clear the slice
+    letters = nil
+    dump(letters)
+    // add stuff back to it
+    letters = append(letters, "e")
+    dump(letters)
+}
+```
+输出结果
+```
+letters =  [a b c d]
+4
+4
+0 a
+1 b
+2 c
+3 d
+letters =  []
+0
+0
+letters =  [e]
+1
+1
+0 e
 ```

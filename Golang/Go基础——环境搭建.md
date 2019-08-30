@@ -3,14 +3,11 @@
 |2019-03-30|go程序入口说明|
 |2019-04-03|增加macOS补充pkg安装方式|
 
-
-##Linux的压缩包安装方式
+## Linux的压缩包安装方式
 Golang的官方[下载地址](https://golang.org/dl/)
 ![image.png](https://upload-images.jianshu.io/upload_images/143845-e6b046e71caf9552.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 1. 下载最新版本的压缩包
-```
-wget https://dl.google.com/go/go1.10.3.linux-amd64.tar.gz
-```
+
 2. 解压安装包 安装包的解压路径放在/usr/local 
 ```
 tar -C /usr/local -xzf go1.10.3.linux-amd64.tar.gz
@@ -30,26 +27,13 @@ source /etc/profile
 ##Linux的源码安装方式
 如果是使用源码安装需要安装1.4版本的，然后在安装后续升级的版本。
 ```
-ubuntu@VM-0-12-ubuntu:~$ wget https://dl.google.com/go/go1.4-bootstrap-20171003.tar.gz
---2018-03-09 02:21:03--  https://dl.google.com/go/go1.4-bootstrap-20171003.tar.gz
-Resolving dl.google.com (dl.google.com)... 203.208.51.36, 203.208.51.33, 203.208.51.41, ...
-Connecting to dl.google.com (dl.google.com)|203.208.51.36|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 11009739 (10M) [application/octet-stream]
-Saving to: ‘go1.4-bootstrap-20171003.tar.gz’
-
-go1.4-bootstrap-20171003.tar.gz 100%[=====================================================>]  10.50M  2.39MB/s    in 3.5s    
-
-2018-03-09 02:21:07 (3.04 MB/s) - ‘go1.4-bootstrap-20171003.tar.gz’ saved [11009739/11009739]
-
-ubuntu@VM-0-12-ubuntu:~$ tar -xf go1.4-bootstrap-20171003.tar.gz 
-ubuntu@VM-0-12-ubuntu:~$ cd go/src
-ubuntu@VM-0-12-ubuntu:~/go/src$ ./make.bash 
-# Building C bootstrap tool.
+$ wget https://dl.google.com/go/go1.4-bootstrap-20171003.tar.gz
+$ tar -xf go1.4-bootstrap-20171003.tar.gz 
+$ cd go/src
+$ ./make.bash 
 ```
 安装1.4成功
 ```
----
 Installed Go for linux/386 in /home/ubuntu/go
 Installed commands in /home/ubuntu/go/bin
 ubuntu@VM-0-12-ubuntu:~/go/src$ cd ../
@@ -60,26 +44,10 @@ ubuntu@VM-0-12-ubuntu:~$ mv go go1.4
 ```
 安装最新版本的1.10
 ```
-wget https://studygolang.com/dl/golang/go1.10.src.tar.gz
---2018-03-09 02:25:05--  https://studygolang.com/dl/golang/go1.10.src.tar.gz
-Resolving studygolang.com (studygolang.com)... 59.110.219.94
-Connecting to studygolang.com (studygolang.com)|59.110.219.94|:443... connected.
-HTTP request sent, awaiting response... 303 See Other
-Location: https://dl.google.com/go/go1.10.src.tar.gz [following]
---2018-03-09 02:25:06--  https://dl.google.com/go/go1.10.src.tar.gz
-Resolving dl.google.com (dl.google.com)... 203.208.51.34, 203.208.51.46, 203.208.51.36, ...
-Connecting to dl.google.com (dl.google.com)|203.208.51.34|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 18300467 (17M) [application/octet-stream]
-Saving to: ‘go1.10.src.tar.gz’
-
-go1.10.src.tar.gz               100%[=====================================================>]  17.45M  2.39MB/s    in 6.4s    
-
-2018-03-09 02:25:12 (2.74 MB/s) - ‘go1.10.src.tar.gz’ saved [18300467/18300467]
-
-ubuntu@VM-0-12-ubuntu:~$ tar -xf go1.10.src.tar.gz 
-ubuntu@VM-0-12-ubuntu:~$ cd go/src
-ubuntu@VM-0-12-ubuntu:~/go/src$ ./all.bash 
+$ wget https://studygolang.com/dl/golang/go1.10.src.tar.gz
+$ tar -xf go1.10.src.tar.gz 
+$ cd go/src
+$ ./all.bash 
 ```
 1.10安装成功
 ```
@@ -156,6 +124,8 @@ vim .bash_profile
 ```
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:/usr/local/go/bin
+
 ```
  退出vim，执行下面的命令完成对golang环境变量的配置。
 ```
@@ -184,8 +154,7 @@ hello, world
 src - 存放 Go 程序的源代码。
 pkg - 编译后的 package 对象文件。
 bin - 可执行命令
-src 目录通常包含多个版本控制仓库用来跟踪一个或多个源码包的开发。这个目录是你开发程序的主目录，所有的源码都是放在这个目录下面进行开发。通常的做法是一个目录为一个独立的项目。例如 $GOPATH/src/hello 就表示 hello 这个应用/包。
-因此，每当开发一个新项目时，都需要在 $GOPATH/src/ 下新建一个文件夹用作开发。当你在引用其他包的时候，Go 程序也会以 $GOPATH/src/ 目录作为根目录进行查找。当然了， src 目录允许存在多级目录，例如在 src 下面新建了目录 $GOPATH/src/github.com/golang/bx/hello，那么这个包路径就是 github.com/golang/bx/hello，包名称为最后一个目录 hello。
+src 目录通常包含多个版本控制仓库用来跟踪一个或多个源码包的开发。这个目录是你开发程序的主目录，所有的源码都是放在这个目录下面进行开发。通常的做法是一个目录为一个独立的项目。例如 `$GOPATH/src/hello `就表示 hello 这个应用/包。因此，每当开发一个新项目时，都需要在 `$GOPATH/src/ `下新建一个文件夹用作开发。当你在引用其他包的时候，Go 程序也会以 `$GOPATH/src/ `目录作为根目录进行查找。当然了， src 目录允许存在多级目录，例如在 src 下面新建了目录 `$GOPATH/src/github.com/golang/bx/hello`，那么这个包路径就是 github.com/golang/bx/hello，包名称为最后一个目录 hello。
 ## GO命令
 ```
 go help
@@ -245,7 +214,7 @@ Use "go help [topic]" for more information about that topic.
 直接从源码文件运行编译任务并执行编译文件。
 ####go build
 这个命令主要用来编译代码，Go 是一门编译型语言，因此需要将源码编译为二进制文件之后才能执行。该命令即可将源码文件编译为对应的二进制文件。若有必要，会同时编译与之相关联的包。
-如果是普通包（后续介绍），当执行 go build 之后，它不会产生任何文件。如果需要在 $GOPATH/pkg 下生成相应的文件，则需要执行 go install 命令完成。
+如果是普通包（后续介绍），当执行 go build 之后，它不会产生任何文件。如果需要在` $GOPATH/pkg` 下生成相应的文件，则需要执行 go install 命令完成。
 如果是 main 包，当执行 go build 之后，它就会在当前目录下生成一个可执行文件。如果需要在 $GOPATH/bin 下生成相应的文件，需要执行 go install，或者使用 go build -o 路径。
 如果某个项目文件夹下有多个文件，而你只想编译某个文件，可以在 go build 之后加上文件名，例如 go build hello.go，go build 命令默认会编译当前目录下的所有 go 文件。
 可以通过 -o NAME 的方式指定 go build 命令编译之后的文件名，默认是 package 名（非 main 包），或者是第一个源文件的文件名（main 包）。
@@ -255,7 +224,7 @@ go build 会忽略目录下以“_”或“.”开头的 go 文件。
 ####go fmt
 Go 语言有标准的书写风格，不按照此风格的代码将不能编译通过，为了减少浪费在排版上的时间，go fmt 命令可以帮你格式化你写好的代码文件，使你写代码的时候不需要关心格式，你只需要在写完之后执行 go fmt filename.go，你的代码就被修改成了标准格式。
 ####go install
-编译和安装包及其依赖。在内部实际上分成了两步操作：第一步是生成结果文件(可执行文件或者包)，第二步会把编译好的结果移到 $GOPATH/pkg 或者 $GOPATH/bin 中。
+编译和安装包及其依赖。在内部实际上分成了两步操作：第一步是生成结果文件(可执行文件或者包)，第二步会把编译好的结果移到 `$GOPATH/pkg` 或者 `$GOPATH/bin` 中。
 ####go test
 读取源码目录下面名为 *_test.go 的文件，生成并自动运行测试用的可执行文件。
 ```

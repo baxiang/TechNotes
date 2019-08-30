@@ -28,6 +28,16 @@ spring:
     schema:
       - classpath:department.sql
 ```
+####HikariCP
+[http://brettwooldridge.github.io/HikariCP/](http://brettwooldridge.github.io/HikariCP/)
+```
+<dependency>
+    <groupId>com.zaxxer</groupId>
+    <artifactId>HikariCP</artifactId>
+    <version>2.7.8</version>
+    <scope>compile</scope>
+</dependency>
+```
 ####druid
 ```
 <dependency>
@@ -36,3 +46,10 @@ spring:
             <version>1.1.14</version>
         </dependency>
 ```
+######druid Filter
+####JDBC Template
+query
+queryForObject
+queryForList
+update
+execute

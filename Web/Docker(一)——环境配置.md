@@ -1,35 +1,19 @@
-## Linux 安装Docker
-####使用官方安装脚本自动安装
+|修改时间|更新内容|
+|----|----|
+|20190530|增加Linux Mint的安装方式|
+
+####概述
+ Docker Engine 来说，其主要分为两个系列：
+- 社区版 ( CE, Community Edition )社区版 ( Docker Engine CE ) 主要提供了 Docker 中的容器管理等基础功能，主要针对开发者和小型团队进行开发和试验，社区版本是免费。
+- 企业版 ( EE, Enterprise Edition )则在社区版的基础上增加了诸如容器管理、镜像管理、插件、安全等额外服务与功能，为容器的稳定运行提供了支持，适合于中大型项目的线上运行，企业版是收费的。
+####脚本自动安装(推荐)
 官方提供的安装教程地址：https://docs.docker.com/install/linux/docker-ce/centos/#os-requirements
 官方脚本https://get.docker.com/ 其中关于镜像的选择是阿里云和亚马逊云，中国地区推荐了使用阿里云镜像
+最快捷的方式脚本一键安装,国内设置镜像为Aliyun。
 ```
-mirror=''
-DRY_RUN=${DRY_RUN:-}
-while [ $# -gt 0 ]; do
-	case "$1" in
-		--mirror)
-			mirror="$2"
-			shift
-			;;
-		--dry-run)
-			DRY_RUN=1
-			;;
-		--*)
-			echo "Illegal option $1"
-			;;
-	esac
-	shift $(( $# > 0 ? 1 : 0 ))
-done
+curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
+```
 
-case "$mirror" in
-	Aliyun)
-		DOWNLOAD_URL="https://mirrors.aliyun.com/docker-ce"
-		;;
-	AzureChinaCloud)
-		DOWNLOAD_URL="https://mirror.azure.cn/docker-ce"
-		;;
-esac
-```
 卸载老版本的docker
 ```
 $ sudo yum remove docker \
@@ -43,13 +27,14 @@ $ sudo yum remove docker \
                   docker-engine-selinux \
                   docker-engine
 ```
-最快捷的方式脚本一键安装,国内设置镜像为Aliyun。
-```
-curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
-```
+
 启动Docker
 ```
 sudo systemctl start docker
+```
+设置开机自启动
+```
+$ sudo systemctl enable docker
 ```
 查看当前Docker版本信息
 ```
@@ -77,15 +62,20 @@ Server:
 ```
 sudo chkconfig docker on
 ```
-## 镜像加速
+####镜像加速
+```
+Warning: failed to get default registry endpoint from daemon (Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?). Using system default: https://index.docker.io/v1/
+Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?
+```
 鉴于国内网络问题，在拉取 Docker 镜像会非常缓慢，需要配置加速器来解决。
 阿里云 - 容器Hub服务控制台：[https://cr.console.aliyun.com/](https://cr.console.aliyun.com/)
 注册并登陆阿里云 - 开发者平台之后，在首页点击“创建我的容器镜像”，然后就会来到阿里云的服务面板。点击加速器标签。根据提示输入Docker登录时需要使用的密码（后期可更改），用户名就是登录阿里云的用户名。在出现的页面中，可以得到一个专属的镜像加速地址，类似于https://xxxxx.mirror.aliyuncs.com。根据页面中的“操作文档”信息，配置自己的Docker加速器。
 ![image.png](https://upload-images.jianshu.io/upload_images/143845-988ce73fb57611e7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ```
+sudo mkdir -p /etc/docker
 sudo tee /etc/docker/daemon.json <<-'EOF'
 {
-  "registry-mirrors": ["加速器地址"]
+  "registry-mirrors": ["https://5tiu40w5.mirror.aliyuncs.com"]
 }
 EOF
 sudo systemctl daemon-reload
@@ -150,7 +140,7 @@ Share images, automate workflows, and more with a free Docker ID:
 For more examples and ideas, visit:
  https://docs.docker.com/engine/userguide/
 ```
-##CentOS yum安装
+####CentOS yum安装
 ```
 # step 1: 安装必要的一些系统工具
 sudo yum install -y yum-utils device-mapper-persistent-data lvm2
@@ -162,7 +152,8 @@ sudo yum -y install docker-ce
 # Step 4: 开启Docker服务
 sudo service docker start
 ```
-Ubuntu  apt-get 安装
+####Ubuntu安装
+官方安装教程https://docs.docker.com/install/linux/docker-ce/ubuntu/
 ```
 # step 1: 安装必要的一些系统工具
 sudo apt-get update
@@ -174,16 +165,16 @@ sudo add-apt-repository "deb [arch=amd64] http://mirrors.aliyun.com/docker-ce/li
 # Step 4: 更新并安装 Docker-CE
 sudo apt-get -y update
 sudo apt-get -y install docker-ce
+sudo systemctl enable docker
+sudo systemctl start docker
 ```
-## Mac OS 安装
+#### Mac OS 安装
 官方下载地址https://store.docker.com/editions/community/docker-ce-desktop-mac
 ![image.png](https://upload-images.jianshu.io/upload_images/143845-2a113cf6b1553551.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 但是在国内众所周知的原因，在某些时候下载速度非常慢，现提供dmg的百度云下载地址：
 https://pan.baidu.com/s/1BUz5ihbufl0rFnNNymVp7A
 ![image.png](https://upload-images.jianshu.io/upload_images/143845-8563bc50b98a1057.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-
-##卸载docker
+####卸载docker
 ####CentOS卸载
 查看当前安装的docker
 ```
@@ -207,7 +198,27 @@ rm -rf /var/lib/docker
 ```
 #sudo rm -rf /var/lib/docker
 ```
-##Docker在线实验室（Play with Docker）
+####Docker在线实验室（Play with Docker）
 Play with Docker是一个Docker的演练场，它可以让用户在几秒钟内运行Docker命令,地址是：https://labs.play-with-docker.com/，大家可以使用docke hud账户登录在线学习使用docker。
 ![image.png](https://upload-images.jianshu.io/upload_images/143845-de320f149cb39596.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ![image.png](https://upload-images.jianshu.io/upload_images/143845-4986b6157bc68f13.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+####Linux Mint 安装
+可以参考Ubuntu安装方式https://docs.docker.com/install/linux/docker-ce/ubuntu/
+唯一的区别是
+```
+sudo add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable"
+```
+需要查看当前mint 对应的Ubuntu版本
+https://www.linuxmint.com/download_all.php
+我使用的是19.1的版本 需要替换 $(lsb_release -cs)
+```
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+```
+安装
+```
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io
+```

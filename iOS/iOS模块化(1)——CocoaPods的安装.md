@@ -117,3 +117,7 @@ Commands:
     + try           Try a Pod!
     + update        Update outdated project dependencies and create new Podfile.lock
 ```
+更新仓库
+```
+pod repo update
+```

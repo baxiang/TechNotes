@@ -10,4 +10,39 @@
 不要在多个函数之间直接传递互斥锁。
 sync.Mutex是一个结构体类型，属于值类型中的一种。把它传给一个函数、将它从函数中返回、把它赋给其他变量、让它进入某个通道都会导致它的副本的产生。原值和它的副本，以及多个副本之间都是完全独立的，它们都是不同的互斥锁。
 建议：尽量避免把一个互斥锁同时用在了多个地方，多个goroutine 争用这把锁增大死锁可能性。而最简单、有效的方式就是让每一个互斥锁都只保护一个临界区或一组相关临界区。
-####读写锁
+####sync.once
+```
+package main
+
+import (
+	"fmt"
+	"sync"
+)
+
+type Singleton struct {
+}
+
+var singleInstance *Singleton
+var once sync.Once
+
+func GetSingletonObj() *Singleton {
+	once.Do(func() {
+		fmt.Println("Create object")
+		singleInstance = new(Singleton)
+	})
+	return singleInstance
+}
+
+func main() {
+	var wg sync.WaitGroup
+	for i := 0; i < 10; i++ {
+		wg.Add(1)
+		go func() {
+			obj := GetSingletonObj()
+			fmt.Printf("%p\n", obj)
+			wg.Done()
+		}()
+	}
+	wg.Wait()
+}
+```

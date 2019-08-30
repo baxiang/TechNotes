@@ -297,7 +297,7 @@ Maven的依赖范围:scope
 ####Maven的远程仓库
 　我们在构建项目的时候，并没有手动的下载任何的jar文件，而项目却能成功的构建。这是因为我们在用Maven构建项目的时候如果在本地Maven仓库中找不到相应的依赖，那么Maven会自动的去查询远程仓库并且从远程仓库将相关依赖下载到本地仓库，Maven本身自带了一个远程仓库，该远程仓库是Maven的中央仓库，Maven中央仓库地址是http://mvnrepository.com/
 ![image.png](https://upload-images.jianshu.io/upload_images/143845-62c637a685c943df.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
+####解决mav 项目构建慢的问题
 修改中央仓库地址为国内镜像.。默认全局修改是maven/conf/settings.xml文件
 ```
    <mirrors>
@@ -336,4 +336,8 @@ tree ~/.m2 -L 2
     └── xml-apis
 
 13 directories, 0 files
+```
+##自定义Meven删除
+```
+/Library/Caches/IntelliJIdea2019.2/Maven/Indices
 ```

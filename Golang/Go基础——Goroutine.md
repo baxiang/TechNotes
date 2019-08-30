@@ -30,7 +30,6 @@ P的最大作用是其拥有的各种G对象队列、链表、cache和状态。
 G（goroutine）
 调度系统的最基本单位goroutine，存储了goroutine的执行stack信息、goroutine状态以及goroutine的任务函数等。
 在G的眼中只有P，P就是运行G的“CPU”。相当于两级线程
-####设置CPU核数
 ####goroutine可能的切换点
 I/O,slect
 channel

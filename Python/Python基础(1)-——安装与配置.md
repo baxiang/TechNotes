@@ -21,3 +21,7 @@ See: https://docs.brew.sh/Homebrew-and-Python
 ==> Summary
 🍺  /usr/local/Cellar/python/3.6.4_4: 4,615 files, 97.4MB
 ```
+安装pip
+```
+ sudo apt-get install python-pip
+```
